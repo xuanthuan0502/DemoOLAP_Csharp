@@ -1,0 +1,413 @@
+﻿@model Models.CubeSchema[]
+
+@{
+	ViewBag.Title = "Nhom 03 Nhom mon hoc 05 (C# MVC PivotData Toolkit Example)";
+	ViewBag.PageAlias = "reportbuilder";
+	ViewBag.Description = "Pivot table (pivot grid) and charts ASP.NET control for user-defined cross-tab reports. Report can be exported to Excel/PDF/CSV/JSON formats.";
+}
+
+<!-- basic pivot table styles -->
+<link href="~/Scripts/nrecopivottable.css" rel="stylesheet" />
+
+<!-- nreco pivot table jQuery plugin (adds sorting, fixed headers) -->
+<script type="text/javascript" src="~/Scripts/jquery.nrecopivottable.js"></script>
+
+<!-- chartist.js for charts -->
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/chartist/0.11.0/chartist.min.css">
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/chartist/0.11.0/chartist.min.js"></script>
+
+<!-- chartist plugins for charts usability (tooltip, axis labels) -->
+<script type="text/javascript" src="~/Scripts/chartist/chartist-plugin-tooltip.min.js"></script>
+<script type="text/javascript" src="~/Scripts/chartist/chartist-plugin-axistitle.min.js"></script>
+
+<!-- select2 is used to choose dimensions/measues -->
+<link href="//cdnjs.cloudflare.com/ajax/libs/select2/3.5.4/select2.min.css" rel="stylesheet" />
+<link href="//cdnjs.cloudflare.com/ajax/libs/select2/3.5.4/select2-bootstrap.min.css" rel="stylesheet" />
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/select2/3.5.4/select2.min.js"></script>
+<script type="text/javascript" src="~/Scripts/sortable.min.js"></script>
+
+<!-- nreco pivot chart wrapper for chartist.js -->
+<script type="text/javascript" src="~/Scripts/jquery.nrecopivotchart.js"></script>
+
+<!-- typeahead for keyword filter (optional)-->
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+
+<!-- pivotdata web pivot builder -->
+<script type="text/javascript" src="~/Scripts/webpivotbuilder.js"></script>
+
+<!-- some web pivot builder styles -->
+<link href="~/Scripts/webpivotbuilder.css" rel="stylesheet" />
+
+<style>
+	.pivotTableBuilder .pivotTable {
+		overflow: auto;
+		max-height: 500px; /* lets limit holder height to illustrate fixed headers */
+	}
+</style>
+<div class="container">
+	<h1>
+		Báo Cáo Phân Tích trực tuyến
+		<small>Web sử dụng ASP.NET  </small>
+	</h1>
+</div>
+<hr />
+<div class="container-fluid pivotTableBuilder">
+
+    <div class="row">
+
+        <div class="col-lg-2 col-md-4">
+
+            <ul class="nav nav-tabs">
+                <li role="presentation" class="active"><a href="#data" aria-controls="data" role="tab" data-toggle="tab">Data</a></li>
+                <li role="presentation"><a href="#format" aria-controls="format" role="tab" data-toggle="tab">Format</a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active" role="tabpanel" id="data">
+                    <br />
+                    <div class="form">
+                        <div class="form-group">
+                            <label class="control-label">Dữ liệu:</label>
+                            <select class="form-control cubeSelect"></select>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Hàng:</label>
+                            <input type="text" class="form-control rowDims" autocomplete="off" value="" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Cột:</label>
+                            <input type="text" class="form-control columnDims" autocomplete="off" value="" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Độ đo:</label>
+                            <input type="text" class="form-control measures" autocomplete="off" value="" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Loại biểu đồ:</label>
+                            <select class="form-control chartSelect">
+                                <option value="">(none)</option>
+                                <option value="bar">Bar</option>
+                                <option value="stackedBar">Stacked Bar</option>
+                                <option value="horizontalBar">Horizontal Bar</option>
+                                <option value="horizontalStackedBar">Horizontal Stacked Bar</option>
+                                <option value="line">Line</option>
+                                <option value="scatterplot">Scatter</option>
+                                <option value="stackedArea">Area</option>
+                                <option value="pie">Pie</option>
+                                <option value="donut">Donut</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane" role="tabpanel" id="format">
+                    <br />
+
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3" style="padding-right:0px;">Value</label>
+                            <div class="col-sm-9">
+                                <select class="form-control valueModifier">
+                                    <option value="">Number</option>
+                                    <option value="PercentageGrandTotal">% of grand total</option>
+                                    <option value="PercentageRowTotal">% of row</option>
+                                    <option value="PercentageColumnTotal">% of column</option>
+                                    <option value="DifferencePreviousRow">diff from prev row</option>
+                                    <option value="DifferencePercentagePreviousRow">% diff from prev row</option>
+                                    <option value="DifferencePreviousColumn">diff from prev column</option>
+                                    <option value="DifferencePercentagePreviousColumn">% diff from prev column</option>
+                                    <option value="RunningTotalRow">running total by row</option>
+                                    <option value="RunningTotalColumn">running total by column</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-3" style="padding-right:0px;">Heatmap</label>
+                            <div class="col-sm-9">
+                                <select class="form-control heatmap">
+                                    <option value="">(none)</option>
+                                    <option value="Table">By Table</option>
+                                    <option value="Row">By Row</option>
+                                    <option value="RowTotal">By Row Total</option>
+                                    <option value="Column">By Column</option>
+                                    <option value="ColumnTotal">By Column Total</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-3" style="padding-right:0px;">Limits</label>
+                            <div class="col-sm-9">
+                                <select class="form-control limitRows">
+                                    <option value="">(unlimited rows)</option>
+                                    <option value="5">Top 5 rows</option>
+                                    <option value="10">Top 10 rows</option>
+                                    <option value="50">Top 50 rows</option>
+                                    <option value="100">Top 100 rows</option>
+                                    <option value="1000">Top 1000 rows</option>
+                                </select>
+                                <select class="form-control limitColumns" style="margin-top:5px;">
+                                    <option value="">(unlimited columns)</option>
+                                    <option value="5">Top 5 columns</option>
+                                    <option value="10">Top 10 columns</option>
+                                    <option value="50">Top 50 columns</option>
+                                    <option value="100">Top 100 columns</option>
+                                    <option value="1000">Top 1000 columns</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Labels grouping</label>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="expandCollapse" autocomplete="off" value="" />
+                                Enable expand/collapse <span class="glyphicon glyphicon-question-sign text-muted" title="All groups are collapsed by default. In this mode limits and pagination are not applied." />
+                            </label>
+                            <label>
+                                <input type="checkbox" class="preserveGroupOrder" autocomplete="off" value="" />
+                                Sort by value only inside group
+                            </label>
+                            <label>
+                                <input type="checkbox" class="subtotalRows" autocomplete="off" value="" />
+                                Subtotals for rows
+                            </label>
+                            <label>
+                                <input type="checkbox" class="subtotalColumns" autocomplete="off" value="" />
+                                Subtotals for columns
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Totals</label>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="totalsRow" autocomplete="off" value="" checked="checked" />
+                                Totals Row
+                            </label>
+                            <select name="totalsRowPosition" class="totalsRowPosition">
+                                <option value="Last">last row</option>
+                                <option value="First">first row</option>
+                            </select>
+                            <br />
+                            <label>
+                                <input type="checkbox" class="totalsColumn" autocomplete="off" value="" checked="checked" />
+                                Totals Column
+                            </label>
+                            <select name="totalsColumnPosition" class="totalsColumnPosition">
+                                <option value="Last">last column</option>
+                                <option value="First">first column</option>
+                            </select>
+                            <br />
+                            <label>
+                                <input type="checkbox" class="grandTotal" autocomplete="off" value="" checked="checked" />
+                                Grand Total
+                            </label>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <hr />
+            <a href="javascript:;" id="renderPivotTable" class="btn btn-primary">Báo Cáo</a>
+            <br /><br />
+        </div>
+
+        <!-- pivot table / chart area -->
+        <div class="col-lg-10 col-md-8">
+
+            <div class="navbar" style="margin-top:-10px;">
+                <div class="navbar-form navbar-left filter-form" style="padding-left:0px;">
+                    <div class="form-group">
+                        <input type="text" class="form-control input-sm filter" style="width:350px;"
+                               placeholder="Lọc theo hàng hoặc cột..."
+                               title="Enter comma-separated list of keywords to filter. Use '-' prefix to exclude." />
+                    </div>
+                    <a href="javascript:;" class="btn btn-sm btn-default drillUpBtn" rel="excel">Back (Drill Up) <span class="badge drillUpCount" style="background-color:silver;padding:1px 4px;"></span></a>
+
+                </div>
+                <div class="navbar-form navbar-right export-form">
+                    <a href="javascript:;" class="btn btn-sm btn-default exportBtn" rel="excel">Export to Excel</a>
+
+                    <a href="javascript:;" class="btn btn-sm btn-default exportBtn" rel="pdf">Export to PDF</a>
+
+                    <a href="javascript:;" class="btn btn-sm btn-default exportBtn" rel="csv">Export to CSV</a>
+
+                    <a href="javascript:;" class="btn btn-sm btn-default exportBtn" rel="json">Export to JSON</a>
+                </div>
+            </div>
+
+            <!-- "pivotChart" class is used for chart placeholder (optional) -->
+            <div class="pivotChart">
+            </div>
+
+            <!-- "pivotTable" class is used for chart placeholder (optional) -->
+            <div class="pivotTable" style="display:none;margin-top:20px;">
+                <div class="progress" style="width:50%;margin-left:auto;margin-right:auto;margin-top:20px;margin-bottom:20px;">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                        <span class="sr-only">loading...</span>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+
+        <!-- promo area -->
+        <!--<div class="col-lg-3 col-md-12">
+
+        <div class="well" style="padding:10px;font-size:95%;">
+            This example illustrates how <a href="https://www.nrecosite.com/pivot_data_library_net.aspx">PivotData Toolkit</a>
+            components may be integrated to get web pivot table builder functionality. Reports builder can be embedded into ASP.NET projects (MVC, MVC Core, WebForms)
+            and even into any web application (with <a href="https://www.nrecosite.com/pivotdata_service.aspx">PivotData microservice</a>):
+            <ul>
+                <li>pivot table data calculations, HTML rendering and exports are performed on the server-side</li>
+                <li>
+                    input data is aggregated on-the-fly (real-time OLAP). Aggregation results may be cached in-memory.
+                </li>
+                <li>fast in-memory processing of large datasets (>1,000,00 rows, > 1 Gb CSV data)</li>
+                <li>supports database-level aggregation (ROLAP, any dataset size): SQL databases with GROUP BY support (like SQL Server, MySql, PostgreSql), MongoDb, ElasticSearch etc</li>
+                <li>labels grouping, expand/collapse for rows/columns</li>
+                <li>grand total, totals column and row, subtotals for grouped labels</li>
+                <li>sort by table values, totals and labels (click on rows/columns/totals label)</li>
+                <li>multiple values (measures), percentage/difference/running total calculation, TOP N limits (show only first N rows/columns), heatmap, custom formatting/styling rules</li>
+                <li>server-side pagination for large pivot tables</li>
+                <li>front-end jQuery plugin for interactive data exploration: fixed headers, sorting, filtering, drill-down.</li>
+                <li>export formats: HTML table, Excel, PDF, CSV, JSON</li>
+                <li>OLAP server is <b>NOT needed</b>: all you need is PivotData .NET managed libs or PivotData Microservice (.NET Core app).</li>
+            </ul>
+        </div>
+
+    </div>-->
+
+    </div>
+
+
+    <script type="text/javascript">
+        $(function () {
+
+            // default chartist css supports only 15 colours
+            Chartist.alphaNumerate = function (n) {
+                return String.fromCharCode(97 + n % 15);
+            };
+
+            // initialize web pivot builder
+            window.$pvtBuilder = $(".pivotTableBuilder").pivotdataWebPivotBuilder({
+                onLoadCubes: function (callback) {
+                    callback(@Html.Raw(Json.Encode(Model)));
+                },
+                onLoadPivotHtml: function (cubeId, pvtConfiguration, callback) {
+                    pvtConfiguration.CubeName = cubeId;
+                    $.ajax("@Url.Action("PivotTableHtml", "Pivot")", {
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(pvtConfiguration)
+                    }).done(callback);
+                },
+                onLoadPivotJson: function (cubeId, pvtConfiguration, callback) {
+                    pvtConfiguration.CubeName = cubeId;
+                    $.ajax("@Url.Action("Export", "Pivot")", {
+                        type: "POST",
+                        data: {
+                            format: "json",
+                            "pvtConfigJson": JSON.stringify(pvtConfiguration)
+                        }
+                    }).done(callback);
+                },
+                onPivotTableRendered: function () {
+                    // this handler is useful if you want to do something with rendered HTML table
+                    if (window.pageTracker)
+                        window.pageTracker._trackEvent("demo", "PivotData_ToolkitPivotTable_render");
+                },
+                onPivotChartRendered: function () {
+                    // this handler is useful if you want to do something with rendered SVG chart
+                    if (window.pageTracker)
+                        window.pageTracker._trackEvent("demo", "PivotData_PivotChart_" + $('.chartSelect').val());
+                },
+                renderOnCubeChange: true,
+                drillDown : true,
+                allowEmptyReport: false, // this option is useful for demo, it automatically uses first dimensions for the new report
+            });
+
+            $('#renderPivotTable').click(function () {
+                $pvtBuilder.pivotdataWebPivotBuilder("render");
+            });
+
+
+            // export buttons handler
+            $('.exportBtn').click(function () {
+                var format = $(this).attr('rel');
+                if (window.pageTracker)
+                    window.pageTracker._trackEvent("demo", "PivotData_ToolkitPivotTable_export_" + format);
+
+                var cubeId = $pvtBuilder.pivotdataWebPivotBuilder("getCurrentCubeId");
+                var pvtCfg = $pvtBuilder.pivotdataWebPivotBuilder("getPivotTableConfig");
+                pvtCfg.CubeName = cubeId;
+
+                var $f = $('#exportForm');
+                $('#exportFormTarget').remove();
+                var $iframe = $('<iframe id="exportFormTarget" name="exportFormTarget" style="display:none;"/>');
+                $iframe.insertAfter($f);
+
+                $f.find('input[name="format"]').val(format);
+                $f.find('input[name="pvtConfigJson"]').val(JSON.stringify(pvtCfg));
+                $f.submit();
+            });
+
+        });
+    </script>
+
+
+    <form id="exportForm" method="POST" action="@Url.Action("Export","Pivot")" target="exportFormTarget">
+        <input type="hidden" name="format" />
+        <input type="hidden" name="pvtConfigJson" />
+    </form>
+
+
+    <!-- EXAMPLE OF SAVE/LOAD HANDLERS -->
+        <!--
+        <hr />
+        <h3>Save/Load state</h3>
+        <textarea id="stateValue" style="width:100%" rows="10"></textarea>
+        <div class="form-inline">
+            <a href="javascript:;" class="btn btn-default saveState">Save Report State</a>
+            <a href="javascript:;" class="btn btn-default loadState">Load Report State</a>
+        </div>
+    -->
+
+        <script type="text/javascript">
+            $(function () {
+                // save/load report state sample handlers
+                $('.saveState').click(function () {
+                    $('#stateValue').val(
+                        JSON.stringify(
+                            {
+                                "Cube": $pvtBuilder.pivotdataWebPivotBuilder("getCurrentCubeId"),
+                                "Report": $pvtBuilder.pivotdataWebPivotBuilder("getPivotTableConfig")
+                            }
+                        )
+                    );
+                });
+
+                $('.loadState').click(function () {
+                    var stateJson = $('#stateValue').val();
+                    if ($.trim(stateJson) == "") {
+                        alert('State is empty');
+                        return;
+                    }
+                    var state = JSON.parse(stateJson);
+                    $pvtBuilder.pivotdataWebPivotBuilder("setPivotTableConfig", state.Cube, state.Report);
+                    $pvtBuilder.pivotdataWebPivotBuilder("render");
+                });
+            });
+        </script>
+
+
+    </div>
+
+
+

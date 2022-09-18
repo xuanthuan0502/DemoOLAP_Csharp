@@ -1,0 +1,135 @@
+﻿@model Models.ProjectsDashboard
+
+@{
+	ViewBag.Title = "ASP.NET Dashboard Example (C# PivotData Toolkit demo)";
+	ViewBag.PageAlias = "dashboard-projects";
+	ViewBag.Description = "ASP.NET MVC dashboard can be easily created with NReco PivotData Toolkit components (pivot tables and pivot charts).";
+}
+
+	<!-- simple pivot table styling -->
+	<link href="~/Scripts/nrecopivottable.css" rel="stylesheet" />
+
+	<!-- interactive pivot table jQuery plugin (required for user-defined sorting) -->
+	<script type="text/javascript" src="~/Scripts/jquery.nrecopivottable.js"></script>
+
+
+	<!-- chartist.js for pivot charts (required only for pivot charts)  -->
+	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/chartist/0.9.5/chartist.min.css">
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/chartist/0.9.5/chartist.js"></script>
+	<!-- pivot charts plugin -->
+	<script type="text/javascript" src="~/Scripts/jquery.nrecopivotchart.js"></script>
+		
+<div class="container">
+	<div class="row">
+		<div class="col-md-6">
+			<h1>
+				ASP.NET Dashboard Example<br />
+				<small>Easy Data Visualization with PivotData Toolkit (C#)</small>
+			</h1>
+		</div>
+		<div class="col-md-6">
+			<div class="well" style="padding-top:10px; padding-bottom:10px; margin-bottom:0px; margin-top:10px;">
+				NReco PivotData Toolkit can be used for developing highly customized dashboards integrated into any ASP.NET application:
+				<ul>
+					<li>pivot tables and charts are configured with simple C# code</li>
+					<li>supports any data sources, custom measures and metrics calculation</li>
+					<li>can be used with any javascript charts libraries (this example uses Chartist.js)</li>
+					<li>dashboard may be exported to printer-friendly PDF</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<hr />
+
+	<div class="row">
+		<div class="col-md-6">
+
+			<div class="panel panel-success">
+				<div class="panel-heading">Projects Completion (%)</div>
+				<div class="panel-body">
+					<div id="projectCompletionChart" class="ct-chart"></div>
+					@Html.Raw(Model.CompletionPivotTableHtml)
+				</div>
+			</div>
+
+		</div>
+
+		<div class="col-md-6">
+
+			<div id="tasksByTypePanel" class="panel panel-warning">
+				<div class="panel-heading">Tasks by Type</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="text-center"><b>Active Tasks</b></div>
+							<div id="activeTasksByTypeChart" class="ct-chart" style="height:200px;"></div>
+						</div>
+						<div class="col-sm-6">
+							<div class="text-center"><b>Closed Tasks</b></div>
+							<div id="closedTasksByTypeChart" class="ct-chart" style="height:200px;"></div>
+						</div>
+					</div>
+					@Html.Raw(Model.TasksByTypePivotTableHtml)
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+		$(function () {
+			var completionChartElem = $('#projectCompletionChart');
+			completionChartElem.nrecoPivotChart({
+				pivotData: @Html.Raw(Model.CompletionPivotTableJson),
+				chartType: 'stackedBar',
+				chartOptions: {
+					height: 270
+				}
+			});
+
+
+			var activeTasksByTypeChartElem = $('#activeTasksByTypeChart');
+			activeTasksByTypeChartElem.nrecoPivotChart({
+				pivotData: @Html.Raw(Model.ActiveTasksByTypePvtTblJson),
+				chartType: 'pie',
+				chartOptions: {
+					height: 200
+				},
+				created : function() {
+					// lets add pie chart legend colors to the pivot table row labels
+					// note: created event raised many times on resize
+					var $pvtTbl = $('#tasksByTypePanel table.pvtTable');
+					if (!$pvtTbl.hasClass('pvtLegend')) {
+						$pvtTbl.addClass('pvtLegend');
+						$pvtTbl.find('th.pvtRow:not(.totals)').each(function(i,cell) {
+							var seriesClass = "ct-series-"+ String.fromCharCode( "a".charCodeAt(0)+i );
+							console.log('#activeTasksByTypeChart .'+seriesClass+' .ct-slice-pie');
+							var color = $('#activeTasksByTypeChart .'+seriesClass+' .ct-slice-pie').css('fill');
+							$(this)
+								.prepend(
+									$('<span/>').html('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;')
+									.css('background-color', color)
+									.css('margin-right', '10px') )
+								.css('text-align', 'left');
+							console.log( color);
+						});
+					}
+				}
+			});
+
+			var closedTasksByTypeChartElem = $('#closedTasksByTypeChart');
+			closedTasksByTypeChartElem.nrecoPivotChart({
+				pivotData: @Html.Raw(Model.ClosedTasksByTypePvtTblJson),
+				chartType: 'pie',
+				chartOptions: {
+					height: 200
+				}
+			});
+
+
+		});
+	</script>
+
+</div>

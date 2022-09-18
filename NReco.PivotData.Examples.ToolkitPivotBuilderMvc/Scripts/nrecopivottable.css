@@ -1,0 +1,195 @@
+﻿/* normal pivot table styles */
+table.pvtTable {
+	font-size: 8pt;
+	margin:0px;
+	border-collapse: collapse;
+	border-spacing:0;
+}
+table.pvtTable>tbody>tr>th, table.pvtTable>tbody>tr>td, table.pvtTable>thead>tr>th, table.pvtTable>thead>tr>td {
+	border: 1px solid #ddd;
+	line-height: 11pt;
+	padding: 5px;
+	box-sizing:border-box;
+}
+table.pvtTable th {
+	text-align: center;
+	vertical-align: middle;
+	background-color: #F9F9F9;
+}
+table.pvtTable th.pvtRow[data-grp-state="expanded"] {
+	text-align:left;
+}
+table.pvtTable td {
+	text-align: right;
+}
+table.pvtTable th.subtotals.pvtRow {
+	text-align: left;
+	font-style: italic;
+}
+table.pvtTable th.totals {
+	font-style:italic;
+	text-align:right;
+	vertical-align:bottom;
+}
+table.pvtTable th.subtotals.pvtColumn {
+	vertical-align:top;
+	font-style:italic;
+}
+table.pvtTable th.pvtColumnLabel {
+	color:#A0A0A0;
+	text-align:right;
+}
+table.pvtTable th.pvtRowLabel {
+	color:#A0A0A0;
+	vertical-align:bottom;
+}
+table.pvtTable tr:first-child>th:first-child:not([class]) {
+	min-width:50px;
+}
+table.pvtTable.pvtSortHeader th[data-sort-index], 
+table.pvtTable.pvtSortHeader th.pvtColumnLabel, 
+table.pvtTable.pvtSortHeader th.pvtRowLabel, 
+table.pvtTable th .pvtPager,
+table.pvtTable th[data-grp-state] {
+	cursor:pointer;
+}
+.pvtExpandCollapseDisabled th[data-grp-state] {
+	cursor:default !important;
+}
+
+table.pvtTable td.totalValue, table.pvtTable td.subtotalValue {
+	font-weight:bold;
+	color:#606060;
+}
+table.pvtTable td.pagerValue {
+	text-align:center;
+	vertical-align:middle;
+	color:#A0A0A0;
+}
+/* fixed headers table */
+.pvtFixedHeaderOuterContainer {
+	border: 1px solid #ddd;
+	overflow: auto;
+}
+	.pvtFixedHeaderOuterContainer table.pvtTable {
+		border-collapse:separate;
+	}
+	.pvtFixedHeaderOuterContainer table.pvtTable th {
+		border:0px;
+	}
+	.pvtFixedHeaderOuterContainer table.pvtTable td {
+		border-top:0px;
+		border-left:0px;
+	}
+table.pvtTable.pvtFixedHeader th {
+	padding: 0px !important;
+	vertical-align: bottom !important;
+	z-index: 90;
+}
+table.pvtTable.pvtFixedHeader th > div.pvtFixedHeader {
+	z-index: 101;
+	position: relative;
+	box-sizing: border-box;
+	border-bottom: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	background-color: #f9f9f9;
+	padding: 5px;
+	padding-left: 5px;
+	padding-top: 5px;
+}
+
+table.pvtTable.pvtFixedHeader th.pvtColumn > div.pvtFixedHeader, table.pvtTable.pvtFixedHeader th.pvtRow > div.pvtFixedHeader {
+	z-index: 99;
+}
+
+.pvtFixedHeaderOuterContainer table.pvtTable:not(.pvtHasTotalsLastColumn) tr > th.pvtColumn:last-child > div.pvtFixedHeader,
+.pvtFixedHeaderOuterContainer table.pvtTable.pvtHasTotalsLastColumn tr > th.totals.pvtColumn:last-child > div.pvtFixedHeader {
+	border-right-color: transparent;
+}
+.pvtFixedHeaderOuterContainer table.pvtTable tr>td:last-child
+{
+	border-right-color:transparent;
+}
+.pvtFixedHeaderOuterContainer table.pvtTable>tr:last-child>th>div.pvtFixedHeader,
+.pvtFixedHeaderOuterContainer table.pvtTable>*:last-child>tr:last-child>th>div.pvtFixedHeader,
+.pvtFixedHeaderOuterContainer table.pvtTable tr:last-child>td
+{
+	border-bottom-color:transparent;
+}
+
+/* sort order markers */
+table.pvtTable:not(.pvtFixedHeader) .pvtSortDesc.pvtColumn::after, 
+table.pvtTable.pvtFixedHeader .pvtSortDesc.pvtColumn>div.pvtFixedHeader::after,
+table.pvtTable:not(.pvtFixedHeader) th.pvtRowLabel.pvtSortDesc::after,
+table.pvtTable.pvtFixedHeader th.pvtRowLabel.pvtSortDesc>div.pvtFixedHeader::after
+{
+	content:" ↓";
+}
+table.pvtTable:not(.pvtFixedHeader) .pvtSortAsc.pvtColumn::after, 
+table.pvtTable.pvtFixedHeader .pvtSortAsc.pvtColumn>div.pvtFixedHeader::after,
+table.pvtTable:not(.pvtFixedHeader) th.pvtRowLabel.pvtSortAsc::after,
+table.pvtTable.pvtFixedHeader th.pvtRowLabel.pvtSortAsc>div.pvtFixedHeader::after
+{
+	content:" ↑";
+}
+table.pvtTable:not(.pvtFixedHeader) .pvtSortDesc.pvtRow::after,
+table.pvtTable.pvtFixedHeader .pvtSortDesc.pvtRow>div.pvtFixedHeader::after,
+table.pvtTable:not(.pvtFixedHeader) th.pvtColumnLabel.pvtSortDesc::after,
+table.pvtTable.pvtFixedHeader th.pvtColumnLabel.pvtSortDesc>div.pvtFixedHeader::after {
+	content:" →";
+}
+table.pvtTable:not(.pvtFixedHeader) .pvtSortAsc.pvtRow::after,
+table.pvtTable.pvtFixedHeader .pvtSortAsc.pvtRow>div.pvtFixedHeader::after,
+table.pvtTable:not(.pvtFixedHeader) th.pvtColumnLabel.pvtSortAsc::after,
+table.pvtTable.pvtFixedHeader th.pvtColumnLabel.pvtSortAsc>div.pvtFixedHeader::after {
+	content:" ←";
+}
+
+table.pvtTable:not(.pvtFixedHeader) th[data-grp-state="expanded"]::before,
+table.pvtTable.pvtFixedHeader th[data-grp-state="expanded"] > div.pvtFixedHeader::before {
+	content: "\2796";
+	color: #777;
+	font-style: normal !important;
+	margin-right: 5px;
+}
+table.pvtTable:not(.pvtFixedHeader) th[data-grp-state="collapsed"]::before,
+table.pvtTable.pvtFixedHeader th[data-grp-state="collapsed"] > div.pvtFixedHeader::before {
+	content: "\2795";
+	color:#777;
+	font-style:normal !important;
+	margin-right:5px;
+}
+
+.pvtLoading {
+	opacity: 0.5;
+}
+
+
+.pvtStickyFixedHeader table.pvtTable.pvtFixedHeader th {
+	position: sticky;
+	z-index: 81;
+}
+.pvtStickyFixedHeader.pvtStickyChromeFixedHeader table.pvtTable.pvtFixedHeader th {
+	transform: translateZ(0); /* fixes chrome glitch with z-index + position:sticky */
+}
+.pvtStickyFixedHeader table.pvtTable.pvtFixedHeader th > div.pvtFixedHeader {
+	z-index: 70;
+	position:static;
+}
+.pvtStickyFixedHeader table.pvtTable.pvtFixedHeader th.pvtRow, .pvtStickyFixedHeader table.pvtTable.pvtFixedHeader th.pvtColumn {
+	z-index: 80;
+}
+.pvtStickyFixedHeader.pvtLoading {
+	opacity:initial;
+}
+.pvtStickyFixedHeader.pvtLoading td, .pvtStickyFixedHeader.pvtLoading th>div.pvtFixedHeader {
+	color:silver !important;
+}
+
+/* pvtFixedHeadersOutdated used in non-smooth scroll-event based fixed headers (fallback for browsers without sticky support) */
+div.pvtFixedHeadersOutdated > table.pvtFixedHeader > tbody > tr > td > div.pvtFixedHeader,
+div.pvtFixedHeadersOutdated > table.pvtFixedHeader > tbody > tr > th > div.pvtFixedHeader,
+div.pvtFixedHeadersOutdated > table.pvtFixedHeader > thead > tr > th > div.pvtFixedHeader {
+	top: 0px !important;
+	left: 0px !important;
+}

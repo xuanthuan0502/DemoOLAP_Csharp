@@ -1,0 +1,103 @@
+﻿@model Models.CohortReport
+
+@{
+	ViewBag.Title = "ASP.NET Cohort Analysis - User Retention Report Example (C# PivotData Toolkit demo)";
+	ViewBag.PageAlias = "cohort-user-retention";
+	ViewBag.Description = "ASP.NET MVC Cohort Table (User Retention) created with NReco PivotData Toolkit components.";
+}
+
+	<!-- simple pivot table styling -->
+	<link href="~/Scripts/nrecopivottable.css" rel="stylesheet" />
+
+
+	<!-- chartist.js for pivot charts (required only for pivot charts)  -->
+	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/chartist/0.9.5/chartist.min.css">
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/chartist/0.9.5/chartist.js"></script>
+	<!-- pivot charts plugin -->
+	<script type="text/javascript" src="~/Scripts/jquery.nrecopivotchart.js"></script>
+		
+<div class="container">
+	<div class="row">
+		<div class="col-md-6">
+			<h1>
+				ASP.NET Cohort Analysis<br />
+				<small>Retention Report created with PivotData Toolkit (C#)</small>
+			</h1>
+		</div>
+		<div class="col-md-6">
+			<div class="well" style="padding-top:10px; padding-bottom:10px; margin-bottom:0px; margin-top:10px;">
+				NReco PivotData Toolkit can be used for cohort analysis in ASP.NET application:
+				<ul>
+					<li>user retention report</li>
+					<li>churn rate, MRR, LTV reports</li>
+					<li>suitable for any cohort types and metrics</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<hr />
+
+	<div class="row">
+		<div class="col-md-6">
+			<div id="userRetentionChart" class="ct-chart"></div>
+		</div>
+
+		<div class="col-md-6">
+			<style>table.pvtTable { width: 100%; }</style>
+
+			@Html.Raw(Model.PivotTableHtml)
+
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+		$(function () {
+			var completionChartElem = $('#userRetentionChart');
+			completionChartElem.nrecoPivotChart({
+				pivotData: @Html.Raw(Model.PivotTableJson),
+				chartType: 'line',
+				chartOptions: {
+					height: 270
+				}
+			});
+
+		});
+	</script>
+
+</div>
+
+@*
+SAMPLE DATA GENERATOR
+<table>
+	<tr>
+		<td>ID,</td>
+		<td>Reg Date,</td>
+		<td>Event Date</td>
+	</tr>
+	@for (int i = 1; i <= 1000; i++) {
+		var regDate = new DateTime(2016, i % 12 + 1, i % 28 + 1);
+		var rnd = new Random(i);
+		<tr>
+			<td>@i,</td>
+			<td>@(regDate.ToString("MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture)),</td>
+			<td>@(regDate.ToString("MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture))</td>
+		</tr>
+
+		for (int j = 1; j < 12; j++) {
+			var rndNum = rnd.NextDouble();
+			if (rndNum< ( ((double)1)/ (j*3) )) {
+				var eventDate = new DateTime(2016, regDate.Month, (i+j) % 28 + 1).AddMonths(j);
+				if (regDate <= eventDate && eventDate.Year<2017) {
+	<tr>
+		<td>@i,</td>
+		<td>@(regDate.ToString("MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture)),</td>
+		<td>@(eventDate.ToString("MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture))</td>
+	</tr>
+				}
+			}
+		}
+	}
+</table>
+*@

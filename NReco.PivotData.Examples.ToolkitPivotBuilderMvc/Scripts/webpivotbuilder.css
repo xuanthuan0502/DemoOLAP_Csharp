@@ -1,0 +1,173 @@
+﻿
+.select2-search-choice.ui-sortable-helper {
+	width: auto !important;
+	height: auto !important;
+}
+.select2-container-multi .select2-choices .select2-search-choice {
+	margin: 4px 0 4px 5px;
+}
+.select2-choices .select2-input {
+	line-height: 17px;
+}
+
+table.pvtTable.pvtDrillDown td[data-value-index]:hover, table.pvtTable.pvtDrillDown td[data-value-index].pvtPopover {
+	cursor: pointer;
+	background-color: #FFFDE1 !important;
+}
+.popover.pvtDrillDownMenu {
+	padding: 0px;
+}
+.popover.pvtDrillDownMenu .popover-content {
+	padding: 0px;
+	overflow:hidden;
+	border-radius:6px;
+	max-height:250px;
+	overflow:auto;	
+}
+.popover.pvtDrillDownMenu h3 {
+	padding: 5px 10px !important;
+	font-size:8pt !important;
+}
+.popover.pvtDrillDownMenu .drillDownAction {
+	cursor: pointer;
+	padding: 2px 10px;
+	font-size:8pt;
+	border-bottom: 1px solid #ebebeb;
+	z-index:10;
+}
+	.popover.pvtDrillDownMenu .drillDownAction:hover {
+		background-color: #FFFDE1 !important;
+	}
+	.popover.pvtDrillDownMenu .drillDownAction:last-child {
+		border-bottom: 0px;
+	}
+
+
+/* pretty styles for ChartistJS charts (remove them if you use another lib for js charts) */
+.ct-label {
+	font-size: 1.0rem;
+}
+
+.ct-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ct-axis-title {
+    font-style: italic;
+}
+
+.ct-grid {
+    stroke-dasharray: 0px !important;
+	stroke:rgba(230,230,230,1.0) !important;
+}
+
+.ct-chart line {
+    shape-rendering: crispedges;
+}
+.ct-chart .ct-area {
+	fill-opacity: 0.4;
+}
+.ct-point {
+	stroke-width: 7px;
+}
+.ct-line {
+	stroke-width: 2px;
+}
+.ct-series-a .ct-point, .ct-series-a .ct-line, .ct-series-a .ct-bar, .ct-series-a .ct-slice-donut {
+	stroke: #c23531 !important;
+}
+.ct-series-a .ct-slice-pie, .ct-series-a .ct-slice-donut-solid, .ct-series-a .ct-area {
+	fill: #c23531 !important;
+}
+.ct-series-b .ct-point, .ct-series-b .ct-line, .ct-series-b .ct-bar, .ct-series-b .ct-slice-donut {
+	stroke: #2f4554 !important;
+}
+.ct-series-b .ct-slice-pie, .ct-series-b .ct-slice-donut-solid, .ct-series-b .ct-area {
+	fill: #2f4554 !important;
+}
+.ct-series-c .ct-point, .ct-series-c .ct-line, .ct-series-c .ct-bar, .ct-series-c .ct-slice-donut {
+	stroke: #61a0a8 !important;
+}
+.ct-series-c .ct-slice-pie, .ct-series-c .ct-slice-donut-solid, .ct-series-c .ct-area {
+	fill: #61a0a8 !important;
+}
+.ct-series-d .ct-point, .ct-series-d .ct-line, .ct-series-d .ct-bar, .ct-series-d .ct-slice-donut {
+	stroke: #d48265 !important;
+}
+.ct-series-d .ct-slice-pie, .ct-series-d .ct-slice-donut-solid, .ct-series-d .ct-area {
+	fill: #d48265 !important;
+}
+.ct-series-e .ct-point, .ct-series-e .ct-line, .ct-series-e .ct-bar, .ct-series-e .ct-slice-donut {
+	stroke: #91c7ae !important;
+}
+.ct-series-e .ct-slice-pie, .ct-series-e .ct-slice-donut-solid, .ct-series-e .ct-area {
+	fill: #91c7ae !important;
+}
+.ct-series-f .ct-point, .ct-series-f .ct-line, .ct-series-f .ct-bar, .ct-series-f .ct-slice-donut {
+	stroke: #749f83 !important;
+}
+.ct-series-f .ct-slice-pie, .ct-series-f .ct-slice-donut-solid, .ct-series-f .ct-area {
+	fill: #749f83 !important;
+}
+.ct-series-g .ct-point, .ct-series-g .ct-line, .ct-series-g .ct-bar, .ct-series-g .ct-slice-donut {
+	stroke: #ca8622 !important;
+}
+.ct-series-g .ct-slice-pie, .ct-series-g .ct-slice-donut-solid, .ct-series-g .ct-area {
+	fill: #ca8622 !important;
+}	
+
+.chartist-tooltip {
+  position: absolute;
+  display: inline-block;
+  opacity: 0;
+  min-width: 50px;
+  padding: 5px;
+  background-color: rgba(230,230,230,0.7);
+  color: #453D3F;
+  font-family: Helvetica,Arial,sans-serif;
+  font-weight: 600;
+  font-size:14px;
+  text-align: center;
+  pointer-events: none;
+  z-index: 1;
+  -webkit-transition: opacity .2s linear;
+  -moz-transition: opacity .2s linear;
+  -o-transition: opacity .2s linear;
+  transition: opacity .2s linear; }
+  .chartist-tooltip:before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    margin-left: -10px;
+    border: 10px solid transparent;
+    border-top-color: rgba(230,230,230,0.7); }
+  .chartist-tooltip.tooltip-show {
+    opacity: 1; }
+  .chartist-tooltip-meta {
+	  font-weight:normal;
+	  font-size:11px;
+	  overflow:hidden;
+	  text-overflow:ellipsis;
+	  max-width:200px;
+	  max-height:50px;
+	  display:inline-block;
+	  padding:2px;
+	  background-color:rgba(255,255,255,0.9)
+  }
+
+.chartist-tooltip-meta {
+    font-weight: normal;
+    font-size: 11px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+    max-height: 50px;
+    display: inline-block;
+    padding: 2px;
+    background-color: rgba(255,255,255,0.9);
+}
+
